@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP视频解析工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-film"></i> VIP视频解析工具</h1>
+            <p class="subtitle">支持多平台VIP视频解析</p>
+            
+            <div class="warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>说明：</strong>本网页提供解析会员影视的功能！
+                    <strong>官方团队：</strong>云链技术团队
+                     <strong>开发者：</strong>赖云鹏
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="video-url"><i class="fas fa-link"></i> 视频分享链接</label>
+                    <input type="text" id="video-url" placeholder="填写视频分享链接">
+                </div>
+                
+                <div class="input-group">
+                    <label for="api-select"><i class="fas fa-plug"></i> 解析接口</label>
+                    <select id="api-select">
+                        <option value="http://jiexi44.qmbo.cn/jiexi/?url=">VIP专用解析（推荐）</option>
+                        <option value="http://jiexi41.qmbo.cn/jiexi/?url=">优酷腾讯专用通道</option>
+                        <option value="http://jiexi42.qmbo.cn/jiexi/?url=">电视剧解析（推荐）</option>
+                        <option value="http://jiexi43.qmbo.cn/jiexi/?url=">备用通道1</option>
+                        <option value="http://jiexi45.qmbo.cn/jiexi/?url=">备用通道2</option>
+                    </select>
+                </div>
+                
+                <button class="parse-btn" id="parse-button">
+                    <i class="fas fa-play-circle"></i> 确定解析
+                </button>
+            </div>
+            
+            <div class="result-section">
+                <div class="result-header">
+                    <div class="result-title">解析结果</div>
+                    <div class="result-controls">
+                        <button class="fullscreen-btn" id="fullscreen-btn">
+                            <i class="fas fa-expand"></i> 全屏
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-container" id="result-container">
+                    <button class="close-fullscreen" id="close-fullscreen">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="placeholder" id="placeholder">
+                        <div class="placeholder-icon"><i class="fas fa-video"></i></div>
+                        <p>解析结果将在此处显示</p>
+                        <p>请先输入视频链接并选择解析通道</p>
+                    </div>
+                    
+                    <div class="loading" id="loading">
+                        <div class="loading-spinner"></div>
+                        <p>正在解析中，请稍候...（请保持网络良好，否则将会失败）</p>
+                    </div>
+                    
+                    <iframe id="video-frame" style="display: none;"></iframe>
+                </div>
+                
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> 使用说明</h3>
+                    <ol>
+                        <li>复制您想观看的VIP视频链接（支持腾讯、优酷、爱奇艺等）</li>
+                        <li>将链接粘贴到上方输入框中</li>
+                        <li>根据视频类型选择合适的解析通道</li>
+                        <li>点击"确定解析"按钮</li>
+                        <li>等待解析完成，视频将在右侧区域播放</li>
+                        <li>如果某个通道无法解析，请尝试其他通道</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 VIP视频解析工具 | 赖云鹏代领开发 | 云链技术团队 | 邮箱：1018103417@qq.com</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
