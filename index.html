@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP电影解析助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ffcc00;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px #ffcc00;
+        }
+        
+        .interface-selector {
+            margin-bottom: 25px;
+        }
+        
+        .interface-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
+        .interface-option {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .interface-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .interface-option.selected {
+            background: rgba(255, 204, 0, 0.2);
+            border-color: #ffcc00;
+        }
+        
+        .interface-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .interface-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .result-area {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .result-label {
+            color: #ffcc00;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .result-link {
+            word-break: break-all;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 94, 98, 0.4);
+        }
+        
+        .copy-btn.copied {
+            background: linear-gradient(to right, #56ab2f, #a8e063);
+        }
+        
+        .instructions {
+            background: rgba(255, 204, 0, 0.1);
+            border-left: 4px solid #ffcc00;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .interface-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>VIP电影解析助手</h1>
+            <p class="subtitle">输入视频分享链接，生成解析链接，免费观看VIP内容</p>
+        </header>
+        
+        <div class="input-group">
+            <label for="video-url">视频分享链接：</label>
+            <input type="text" id="video-url" placeholder="粘贴影视分享链接" />
+        </div>
+        
+        <div class="interface-selector">
+            <label>选择解析通道：</label>
+            <div class="interface-options">
+                <div class="interface-option selected" data-interface="1">
+                    <div class="interface-name">VIP专用解析</div>
+                    <div class="interface-desc">推荐使用</div>
+                </div>
+                <div class="interface-option" data-interface="2">
+                    <div class="interface-name">优酷腾讯专用</div>
+                    <div class="interface-desc">针对优酷和腾讯视频</div>
+                </div>
+                <div class="interface-option" data-interface="3">
+                    <div class="interface-name">电视剧解析</div>
+                    <div class="interface-desc">推荐用于电视剧</div>
+                </div>
+                <div class="interface-option" data-interface="4">
+                    <div class="interface-name">备用通道1</div>
+                    <div class="interface-desc">备用选项</div>
+                </div>
+                <div class="interface-option" data-interface="5">
+                    <div class="interface-name">备用通道2</div>
+                    <div class="interface-desc">备用选项</div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="generate-btn" class="copy-btn" style="width: 100%; margin-bottom: 20px;">
+            解析
+        </button>
+        
+        <div class="result-area" id="result-area">
+            <div class="result-label">解析链接：</div>
+            <div class="result-link" id="result-link"></div>
+            <button id="copy-btn" class="copy-btn">
+                复制观看链接
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <h3>使用说明：</h3>
+            <ol>
+                <li>在视频APP中找到您想观看的VIP内容，点击"分享"获取视频链接</li>
+                <li>将分享链接粘贴到上方输入框中</li>
+                <li>选择合适的解析通道（推荐使用VIP专用解析）</li>
+                <li>点击"生成解析链接"按钮</li>
+                <li>复制生成的链接，在浏览器中打开即可免费观看</li>
+            </ol>
+        </div>
+        
+        <footer>
+            <p>温馨提示：请将生成的链接复制到浏览器地址栏中打开</p>
+            <p>本工具仅供学习交流使用，请勿用于商业用途</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoUrlInput = document.getElementById('video-url');
+            const generateBtn = document.getElementById('generate-btn');
+            const resultArea = document.getElementById('result-area');
+            const resultLink = document.getElementById('result-link');
+            const copyBtn = document.getElementById('copy-btn');
+            const interfaceOptions = document.querySelectorAll('.interface-option');
+            
+            let selectedInterface = '1';
+            const interfaces = {
+                '1': 'http://jiexi44.qmbo.cn/jiexi/?url=',
+                '2': 'http://jiexi41.qmbo.cn/jiexi/?url=',
+                '3': 'http://jiexi42.qmbo.cn/jiexi/?url=',
+                '4': 'http://jiexi43.qmbo.cn/jiexi/?url=',
+                '5': 'http://jiexi45.qmbo.cn/jiexi/?url='
+            };
+            
+            // 选择解析通道
+            interfaceOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    interfaceOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedInterface = this.getAttribute('data-interface');
+                });
+            });
+            
+            // 生成解析链接
+            generateBtn.addEventListener('click', function() {
+                const videoUrl = videoUrlInput.value.trim();
+                
+                if (!videoUrl) {
+                    alert('请输入视频分享链接');
+                    return;
+                }
+                
+                const parsedUrl = interfaces[selectedInterface] + encodeURIComponent(videoUrl);
+                resultLink.textContent = parsedUrl;
+                resultArea.style.display = 'block';
+                
+                // 滚动到结果区域
+                resultArea.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // 复制链接
+            copyBtn.addEventListener('click', function() {
+                const textToCopy = resultLink.textContent;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    copyBtn.textContent = '已复制';
+                    copyBtn.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = '复制链接';
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败: ', err);
+                    alert('复制失败，请手动复制链接');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
